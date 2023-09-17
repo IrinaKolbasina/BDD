@@ -16,7 +16,7 @@ public class DataHelper {
         return new AuthInfo("vasya", "qwerty123");
     }
 
-    public static AuthInfo getOtherAuthInfo(AuthInfo original) {
+    public static AuthInfo getOtherAuthinfo(AuthInfo original) {
         return new AuthInfo("petya", "123qwerty");
     }
 
@@ -39,10 +39,7 @@ public class DataHelper {
     }
 
     public static CardNumber getSecondCardNumber() {
-        return new CardNumber("5559 0000 0000 0002");
-    }
 
-    public static CardNumber getWrongCardNumber() {
-        return new CardNumber("5559 0000 0000 0003");
+        return new CardNumber("5559 0000 0000 0002");
     }
 }

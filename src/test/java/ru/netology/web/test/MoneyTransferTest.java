@@ -1,31 +1,79 @@
 package ru.netology.web.test;
+
+
+import lombok.val;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.DashboardPage;
 import ru.netology.web.page.LoginPage;
 
+
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.netology.web.data.DataHelper.getAuthInfo;
-import static ru.netology.web.data.DataHelper.getVerificationCodeFor;
 
-class MoneyTransferTest {
+public class MoneyTransferTest {
 
-    LoginPage loginPage;
-    DashboardPage dashboardPage;
+    @BeforeEach
+    public void openPage() {
 
-    @Test
-    void openThePage() {
-        loginPage = open("http://localhost:9999", LoginPage.class);
-        var authInfo = getAuthInfo();
-        var verificationPage = loginPage.validLogin(authInfo);
-        var verificationCode = getVerificationCodeFor(authInfo);
-        dashboardPage = verificationPage.validVerify(verificationCode);
-
+        open("http://localhost:9999");
+        val loginPage = new LoginPage();
+        val authInfo = DataHelper.getAuthInfo();
+        val verificationPage = loginPage.validLogin(authInfo);
+        val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
+        verificationPage.validVerify(verificationCode);
     }
 
+    @Test
+    void shouldTransferMoneyBetweenOwnCards1() {
+        val dashboardPage = new DashboardPage();
 
+        int balanceFirstCard = dashboardPage.getFirstCardBalance();
+        int balanceSecondCard = dashboardPage.getSecondCardBalance();
+        val moneyTransfer = dashboardPage.firstCardButton();
+        val infoCard = DataHelper.getSecondCardNumber();
+        String sum = "100";
+        moneyTransfer.transferForm(sum, infoCard);
+
+        assertEquals(balanceFirstCard + Integer.parseInt(sum), dashboardPage.getFirstCardBalance());
+        assertEquals(balanceSecondCard - Integer.parseInt(sum), dashboardPage.getSecondCardBalance());
+    }
+
+    @Test
+    void shouldTransferMoneyBetweenOwnCards2() {
+
+        val dashboardPage = new DashboardPage();
+
+        int balanceFirstCard = dashboardPage.getFirstCardBalance();
+        int balanceSecondCard = dashboardPage.getSecondCardBalance();
+        val moneyTransfer = dashboardPage.secondCardButton();
+        val infoCard = DataHelper.getFirstCardNumber();
+        String sum = "1500";
+        moneyTransfer.transferForm(sum, infoCard);
+
+        assertEquals(balanceFirstCard - Integer.parseInt(sum), dashboardPage.getFirstCardBalance());
+        assertEquals(balanceSecondCard + Integer.parseInt(sum), dashboardPage.getSecondCardBalance());
+    }
+
+    @Test
+    void shouldCancellationOfMoneyTransfer() {
+
+        val dashboardPage = new DashboardPage();
+
+        val moneyTransfer = dashboardPage.firstCardButton();
+        moneyTransfer.cancelButton();
+    }
+
+    @Test
+    void shouldTransferMoneyBetweenOwnCardsError() {
+
+        val dashboardPage = new DashboardPage();
+
+        val moneyTransfer = dashboardPage.secondCardButton();
+        val infoCard = DataHelper.getFirstCardNumber();
+        String sum = "20000";
+        moneyTransfer.transferForm(sum, infoCard);
+        moneyTransfer.getError();
+    }
 }
-
-
-
