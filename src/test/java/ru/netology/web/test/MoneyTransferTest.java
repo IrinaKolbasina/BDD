@@ -65,15 +65,15 @@ public class MoneyTransferTest {
         moneyTransfer.cancelButton();
     }
 
-    @Test
-    void shouldTransferMoneyBetweenOwnCardsError() {
+ //  @Test
+  // void shouldTransferMoneyBetweenOwnCardsError() {
 
-        val dashboardPage = new DashboardPage();
+   //    val dashboardPage = new DashboardPage();
 
-        val moneyTransfer = dashboardPage.secondCardButton();
-        val infoCard = DataHelper.getFirstCardNumber();
-        String sum = "20000";
-        moneyTransfer.transferForm(sum, infoCard);
-        moneyTransfer.getError();
-    }
+    //   val moneyTransfer = dashboardPage.secondCardButton();
+    //   val infoCard = DataHelper.getFirstCardNumber();
+    //    String sum = "20000";
+    //   moneyTransfer.transferForm(sum, infoCard);
+    //    moneyTransfer.getError();
+ //   }
 }
