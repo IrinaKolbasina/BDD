@@ -16,7 +16,6 @@ public class MoneyTransferTest {
 
     @BeforeEach
     public void openPage() {
-
         open("http://localhost:9999");
         val loginPage = new LoginPage();
         val authInfo = DataHelper.getAuthInfo();
@@ -28,48 +27,39 @@ public class MoneyTransferTest {
     @Test
     void shouldTransferMoneyBetweenOwnCards1() {
         val dashboardPage = new DashboardPage();
-
         int balanceFirstCard = dashboardPage.getFirstCardBalance();
         int balanceSecondCard = dashboardPage.getSecondCardBalance();
         val moneyTransfer = dashboardPage.firstCardButton();
         val infoCard = DataHelper.getSecondCardNumber();
         String sum = "100";
         moneyTransfer.transferForm(sum, infoCard);
-
         assertEquals(balanceFirstCard + Integer.parseInt(sum), dashboardPage.getFirstCardBalance());
         assertEquals(balanceSecondCard - Integer.parseInt(sum), dashboardPage.getSecondCardBalance());
     }
 
     @Test
     void shouldTransferMoneyBetweenOwnCards2() {
-
         val dashboardPage = new DashboardPage();
-
         int balanceFirstCard = dashboardPage.getFirstCardBalance();
         int balanceSecondCard = dashboardPage.getSecondCardBalance();
         val moneyTransfer = dashboardPage.secondCardButton();
         val infoCard = DataHelper.getFirstCardNumber();
         String sum = "1500";
         moneyTransfer.transferForm(sum, infoCard);
-
         assertEquals(balanceFirstCard - Integer.parseInt(sum), dashboardPage.getFirstCardBalance());
         assertEquals(balanceSecondCard + Integer.parseInt(sum), dashboardPage.getSecondCardBalance());
     }
 
     @Test
     void shouldCancellationOfMoneyTransfer() {
-
         val dashboardPage = new DashboardPage();
-
         val moneyTransfer = dashboardPage.firstCardButton();
         moneyTransfer.cancelButton();
     }
 
     @Test
     void shouldTransferMoneyBetweenOwnCardsError() {
-
         val dashboardPage = new DashboardPage();
-
         val moneyTransfer = dashboardPage.secondCardButton();
         val infoCard = DataHelper.getFirstCardNumber();
         String sum = "20000";
