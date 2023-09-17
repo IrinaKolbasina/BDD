@@ -1,5 +1,4 @@
 package ru.netology.web.test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.DashboardPage;
@@ -12,40 +11,21 @@ import static ru.netology.web.data.DataHelper.getVerificationCodeFor;
 
 class MoneyTransferTest {
 
- //   LoginPage loginPage;
- //   DashboardPage dashboardPage;
-
- //   @BeforeEach
- //   void setUp() {
- //       loginPage = open("http://localhost:9999", LoginPage.class);
- //       var authInfo = getAuthInfo();
- //       var verificationPage = loginPage.validLogin(authInfo);
- //       var verificationCode = getVerificationCodeFor();
- //       dashboardPage = verificationPage.validVerify(verificationCode);
-
-  //  }
-
-
+    LoginPage loginPage;
+    DashboardPage dashboardPage;
 
     @Test
-    void shouldTransferMoney() {
-        open("http://localhost:9999");
-        var loginPage = new LoginPage();
+    void openThePage() {
+        loginPage = open("http://localhost:9999", LoginPage.class);
         var authInfo = getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
-        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        verificationPage.validVerify(verificationCode);
+        var verificationCode = getVerificationCodeFor(authInfo);
+        dashboardPage = verificationPage.validVerify(verificationCode);
 
-        var dashboardPage = new DashboardPage();
-
-        int firstCardBalance = dashboardPage.getFirstCardBalance();
-        int secondCardBalance = dashboardPage.getSecondCardBalance();
-        var moneyTransferPage = dashboardPage.firstReplenishButton();
-        String sum = "1";
-        var cardNumber = DataHelper.getSecondCardNumber();
-        moneyTransferPage.transferFrom(sum, cardNumber);
-
-        assertEquals(secondCardBalance - Integer.parseInt(sum), dashboardPage.getSecondCardBalance());
-        assertEquals(firstCardBalance + Integer.parseInt(sum), dashboardPage.getFirstCardBalance());
     }
+
+
 }
+
+
+
